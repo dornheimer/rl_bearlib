@@ -16,7 +16,7 @@ class Buildings(BaseGenerator):
 
     def _initialize(self):
         """Fill game map space with clear tiles."""
-        return [[Tile(blocks=False, opaque=False, color='green', char='.')
+        return [[Tile('ground')
                  for y in range(self.game_map.height)]
                 for x in range(self.game_map.width)]
 

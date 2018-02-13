@@ -1,0 +1,20 @@
+{
+    "ground": {
+        "char": ".",
+        "blocks": false,
+        "opaque": false,
+        "color": "t_cyan"
+    },
+    "wall": {
+        "char": "#",
+        "blocks": true,
+        "opaque": true,
+        "color": "t_dgray"
+    },
+    "water": {
+        "char": "~",
+        "blocks": false,
+        "opaque": false,
+        "color": "t_blue"
+    }
+}
