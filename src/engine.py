@@ -9,7 +9,6 @@ class GameEngine:
         self.window_height = 50
         self.map_width = 60
         self.map_height = 50
-        self.cellsize = "16x16"
 
         self.initialize_blt()
         self.generate_world()
@@ -17,12 +16,10 @@ class GameEngine:
     def initialize_blt(self):
         blt.open()
         blt.set(
-            "window: size={}x{}, cellsize={}, title='roguelike-bearlib';"
-            "font: default;"
+            "window: size={}x{}, title='roguelike-bearlib';"
             "".format(
                 str(self.window_width),
-                str(self.window_height),
-                self.cellsize))
+                str(self.window_height)))
         blt.clear()
         blt.refresh()
         #blt.color_from_name('white')
