@@ -37,11 +37,11 @@ class GameEngine:
 
     def run(self):
         while blt.read() != blt.TK_CLOSE:
-            self.process_one_tick()
+            self.update()
 
         blt.close()
 
-    def process_one_tick(self):
+    def update(self):
         blt.clear()
         self.render_map()
         blt.refresh()
