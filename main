@@ -1,7 +1,9 @@
 #! /usr/bin/env python3
 
 from src.engine import main
+from src.log import initialize_logger
 
 
 if __name__ == "__main__":
+    initialize_logger(log_file='rl.log')
     main()

@@ -1,6 +1,10 @@
 import bearlibterminal.terminal as blt
+import logging
 
 from .game_map import GameMap
+
+
+logger = logging.getLogger('roguelike')
 
 
 class GameEngine:
@@ -14,6 +18,7 @@ class GameEngine:
         self.generate_world()
 
     def initialize_blt(self):
+        logger.debug("initializing bearlibterminal")
         blt.open()
         blt.set(
             "window: size={}x{}, title='roguelike-bearlib';"
@@ -22,9 +27,10 @@ class GameEngine:
                 str(self.window_height)))
         blt.clear()
         blt.refresh()
-        #blt.color_from_name('white')
+        blt.bkcolor('t_black')
 
     def generate_world(self):
+        logger.debug("generating world")
         self.game_map = GameMap(width=self.map_width,
                                 height=self.map_height,
                                 generator='buildings')
