@@ -23,7 +23,7 @@ def initialize_logger(level='debug', log_file=None):
         logger.addHandler(file_handler)
 
     console = logging.StreamHandler()
-    console_format = "%(asctime)s %(levelname)-8s[%(funcName)s]: %(message)s"
+    console_format = "%(levelname)-8s[%(module)s]: %(message)s"
     date_format = "%H:%M:%S"
     console_formatter = logging.Formatter(console_format, date_format)
     console.setFormatter(console_formatter)
