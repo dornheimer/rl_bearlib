@@ -1,4 +1,10 @@
 {
+    "empty": {
+        "char": " ",
+        "blocks": false,
+        "opaque": false,
+        "color": null
+    },
     "ground": {
         "char": ".",
         "blocks": false,
@@ -10,6 +16,12 @@
         "blocks": true,
         "opaque": true,
         "color": "t_dgray"
+    },
+    "door": {
+        "char": "+",
+        "blocks": false,
+        "opaque": true,
+        "color": "t_lgray"
     },
     "water": {
         "char": "~",

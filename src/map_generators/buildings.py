@@ -63,5 +63,5 @@ class Buildings(BaseGenerator):
             elif wt[1] in (room.y1, room.y2):
                 if room.x1+1 < wt[0] < room.x2-1:
                     valid_doors.append(wt)
-        doorway = rd.choice(valid_doors)
-        self.carve(doorway[0], doorway[1])
+        door_x, door_y = rd.choice(valid_doors)
+        self.tiles[door_x][door_y].set_type('door')
