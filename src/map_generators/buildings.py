@@ -1,24 +1,18 @@
 import random as rd
 
 from .components import Rect
-from .base_generator import Tile, BaseGenerator
+from .base_generator import BaseGenerator
 
 
 class Buildings(BaseGenerator):
     def __init__(self, game_map, room_min_size, room_max_size):
         super().__init__(game_map)
-        self.tiles = self._initialize()
+        self.tiles = self._initialize(tile_type='ground')
         self.room_min_size = room_min_size
         self.room_max_size = room_max_size
         self.max_rooms = 10
         self.rooms = []
         self.distance = 3
-
-    def _initialize(self):
-        """Fill game map space with clear tiles."""
-        return [[Tile('ground')
-                 for y in range(self.game_map.height)]
-                for x in range(self.game_map.width)]
 
     def generate(self):
         for r in range(self.max_rooms):

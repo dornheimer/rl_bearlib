@@ -34,10 +34,11 @@ class BaseGenerator(metaclass=ABCMeta):
         self.game_map = game_map
         self.tiles = self._initialize()
 
-    def _initialize(self):
-        """Fill map space with blocked tiles."""
-        return [[Tile('wall') for y in range(self.game_map.height)]
-                              for x in range(self.game_map.width)]
+    def _initialize(self, *, tile_type='wall'):
+        """Fill game map space with clear tiles."""
+        return [[Tile(tile_type)
+                for y in range(self.game_map.height)]
+                for x in range(self.game_map.width)]
 
     def carve(self, x, y):
         self.tiles[x][y].set_type('ground')
