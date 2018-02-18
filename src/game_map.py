@@ -1,7 +1,11 @@
 from collections import Sequence
+import logging
 
 from .map_generators.buildings import Buildings
 from .map_generators.tunnel import Tunnel
+
+
+logger = logging.getLogger('roguelike')
 
 
 class GameMap(Sequence):
@@ -15,6 +19,8 @@ class GameMap(Sequence):
         self.height = height
         self.generator = self.initialize_generator(generator)
         self.tiles = self.generator.generate()
+
+        logger.debug(f"sucessfully built map (generator: {generator})")
 
     def initialize_generator(self, generator):
         generator, params = self.generators[generator]
