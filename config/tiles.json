@@ -12,16 +12,61 @@
         "color": "t_cyan"
     },
     "wall": {
-        "char": "#",
+        "char": "╬",
         "blocks": true,
         "opaque": true,
         "color": "t_dgray"
     },
+    "wall_nwe": {
+        "char": "╩"
+    },
+    "wall_nse": {
+        "char": "╠"
+    },
+    "wall_nsw": {
+        "char": "╣"
+    },
+    "wall_swe": {
+        "char": "╦"
+    },
+    "wall_ns": {
+        "char": "║"
+    },
+    "wall_ne": {
+        "char": "╚"
+    },
+    "wall_nw": {
+        "char": "╝"
+    },
+    "wall_se": {
+        "char": "╔"
+    },
+    "wall_sw": {
+        "char": "╗"
+    },
+    "wall_we": {
+        "char": "═"
+    },
+    "wall_n": {
+        "char": "╨"
+    },
+    "wall_s": {
+        "char": "╥"
+    },
+    "wall_e": {
+        "char": "╞"
+    },
+    "wall_w": {
+        "char": "╡"
+    },
+    "wall_pillar": {
+        "char": "○"
+    },
     "door": {
-        "char": "+",
+        "char": "┼",
         "blocks": false,
         "opaque": true,
-        "color": "t_lgray"
+        "color": "t_lblue"
     },
     "water": {
         "char": "~",

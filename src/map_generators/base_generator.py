@@ -4,8 +4,6 @@ from src.globals import TILES
 
 
 class Tile:
-    tile_types = TILES
-
     def __init__(self, tile_type=None, *, color='t_brown', char='#',
                  blocks=True, opaque=None):
         if tile_type is None:
@@ -21,7 +19,8 @@ class Tile:
             setattr(self, key, value)
 
     def set_type(self, tile_type):
-        self.update(**Tile.tile_types[tile_type])
+        self.update(**TILES[tile_type])
+        self.tile_type = tile_type
 
     def __repr__(self):
         class_name = type(self).__name__
@@ -45,6 +44,61 @@ class BaseGenerator(metaclass=ABCMeta):
 
     def fill(self, x, y):
         self.tiles[x][y].set_type('wall')
+
+    def assign_wall_tiles(self):
+        for y in range(self.game_map.height-1):
+            for x in range(self.game_map.width-1):
+                tile = self.tiles[x][y]
+                if not tile.tile_type == 'wall':
+                    continue
+
+                wall_tile = self._check_adjacent_tiles(x, y)
+                tile.set_type(wall_tile)
+
+    def _check_adjacent_tiles(self, x, y, tile_type='wall'):
+        north = self.tile_is_type(x, y-1, tile_type, door=True)
+        south = self.tile_is_type(x, y+1, tile_type, door=True)
+        east = self.tile_is_type(x+1, y, tile_type, door=True)
+        west = self.tile_is_type(x-1, y, tile_type, door=True)
+
+        if all((north, south, east, west)):
+            return 'wall'
+        elif all((north, east, west)):
+            return 'wall_nwe'
+        elif all((north, south, east)):
+            return 'wall_nse'
+        elif all((north, south, west)):
+            return 'wall_nsw'
+        elif all((south, east, west)):
+            return 'wall_swe'
+        elif north and south:
+            return 'wall_ns'
+        elif north and east:
+            return 'wall_ne'
+        elif north and west:
+            return 'wall_nw'
+        elif south and east:
+            return 'wall_se'
+        elif south and west:
+            return 'wall_sw'
+        elif east and west:
+            return 'wall_we'
+        elif north:
+            return 'wall_n'
+        elif south:
+            return 'wall_s'
+        elif east:
+            return 'wall_e'
+        elif west:
+            return 'wall_w'
+        else:
+            return 'wall_pillar'
+
+    def tile_is_type(self, x, y, tile_type, door=False):
+        is_type = self.tiles[x][y].tile_type.startswith(tile_type)
+        if door:
+            return is_type or self.tiles[x][y].tile_type == 'door'
+        return is_type
 
     @abstractmethod
     def generate(self):

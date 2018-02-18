@@ -18,8 +18,8 @@ class Buildings(BaseGenerator):
         for r in range(self.max_rooms):
             w = rd.randint(self.room_min_size, self.room_max_size)
             h = rd.randint(self.room_min_size, self.room_max_size)
-            x = rd.randint(0, self.game_map.width-w-1)
-            y = rd.randint(0, self.game_map.height-h-1)
+            x = rd.randint(1, self.game_map.width-w-2)
+            y = rd.randint(1, self.game_map.height-h-2)
             new_room = Rect(x, y, w, h)
 
             x_dist, y_dist = x-self.distance, y-self.distance,
@@ -33,6 +33,7 @@ class Buildings(BaseGenerator):
                 self.create_room_walls(new_room)
                 self.rooms.append(new_room)
 
+        self.assign_wall_tiles()
         return self.tiles
 
     def create_room_walls(self, room):

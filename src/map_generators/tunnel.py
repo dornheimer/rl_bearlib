@@ -27,8 +27,8 @@ class Tunnel(BaseGenerator, RectangularMixin):
         for r in range(self.max_rooms):
             w = rd.randint(self.room_min_size, self.room_max_size)
             h = rd.randint(self.room_min_size, self.room_max_size)
-            x = rd.randint(0, self.game_map.width-w-1)
-            y = rd.randint(0, self.game_map.height-h-1)
+            x = rd.randint(1, self.game_map.width-w-2)
+            y = rd.randint(1, self.game_map.height-h-2)
 
             new_room = Rect(x, y, w, h)
             for other_room in self.rooms:
@@ -44,4 +44,5 @@ class Tunnel(BaseGenerator, RectangularMixin):
                 self.rooms.append(new_room)
                 num_rooms += 1
 
+        self.assign_wall_tiles()
         return self.tiles
