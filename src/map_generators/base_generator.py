@@ -52,15 +52,19 @@ class BaseGenerator(metaclass=ABCMeta):
                 if not tile.tile_type == 'wall':
                     continue
 
-                wall_tile = self._check_adjacent_tiles(x, y)
+                wall_tile = self.select_wall_tile(x, y)
                 tile.set_type(wall_tile)
 
-    def _check_adjacent_tiles(self, x, y, tile_type='wall'):
-        north = self.tile_is_type(x, y-1, tile_type, door=True)
-        south = self.tile_is_type(x, y+1, tile_type, door=True)
-        east = self.tile_is_type(x+1, y, tile_type, door=True)
-        west = self.tile_is_type(x-1, y, tile_type, door=True)
+    def _check_adjacent_tiles(self, x, y, tile_type='wall', *, door=False):
+        north = self.tile_is_type(x, y-1, tile_type, door=door)
+        south = self.tile_is_type(x, y+1, tile_type, door=door)
+        east = self.tile_is_type(x+1, y, tile_type, door=door)
+        west = self.tile_is_type(x-1, y, tile_type, door=door)
 
+        return north, south, east, west
+
+    def select_wall_tile(self, x, y):
+        north, south, east, west = self._check_adjacent_tiles(x, y, door=True)
         if all((north, south, east, west)):
             return 'wall'
         elif all((north, east, west)):
@@ -94,7 +98,11 @@ class BaseGenerator(metaclass=ABCMeta):
         else:
             return 'wall_pillar'
 
-    def tile_is_type(self, x, y, tile_type, door=False):
+    def tile_is_type(self, x, y, tile_type, *, door=False):
+        """Check if tile at location is of a specific type.
+
+        Setting door to True allows treating doors as wall tiles.
+        """
         is_type = self.tiles[x][y].tile_type.startswith(tile_type)
         if door:
             return is_type or self.tiles[x][y].tile_type == 'door'
