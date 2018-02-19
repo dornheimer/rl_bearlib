@@ -8,11 +8,25 @@ class Rect:
         self.x2 = x + w
         self.y2 = y + h
 
+    @property
     def center(self):
         """Calculate center coordinates of a rectangle."""
         center_x = int((self.x1 + self.x2) / 2)
         center_y = int((self.y1 + self.y2) / 2)
         return (center_x, center_y)
+
+    @property
+    def border(self):
+        border = []
+        for y in (self.y1, self.y2):
+            for x in range(self.x1, self.x2+1):
+                border.append((x, y))
+
+        for x in (self.x1, self.x2):
+            for y in range(self.y1, self.y2+1):
+                border.append((x, y))
+
+        return border
 
     def intersect(self, other):
         """
@@ -20,3 +34,7 @@ class Rect:
         """
         return (self.x1 <= other.x2 and self.x2 >= other.x1 and
                 self.y1 <= other.y2 and self.y2 >= other.y1)
+
+    def __repr__(self):
+        class_name = type(self).__name__
+        return f"{class_name}({self.x1}, {self.y1}, {self.x2}, {self.y2})"

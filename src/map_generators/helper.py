@@ -24,8 +24,8 @@ class RectangularMixin:
 
     def connect_rooms(self, room1, room2):
         """Connect two rooms with tunnels."""
-        x1, y1 = room1.center()
-        x2, y2 = room2.center()
+        x1, y1 = room1.center
+        x2, y2 = room2.center
 
         # 50% chance to carve horizontal tunnel first
         if rd.randint(0, 1) == 1:
@@ -35,3 +35,8 @@ class RectangularMixin:
             # Move vertically first, then horizontally
             self.create_v_tunnel(y2, y1, x2)
             self.create_h_tunnel(x2, x1, y1)
+
+    def create_room_walls(self, room):
+        """Block tiles along the borders of the rectangle."""
+        for x, y in room.border:
+            self.fill(x, y)
