@@ -17,6 +17,27 @@ class Tunnel(BaseGenerator, RectangularMixin):
         self.rooms = []
         self.max_rooms = 50
 
+    def place_doors(self, room, num_doors=None):
+        valid_doors = []
+        for x, y in room.border:
+            if not self.tiles[x][y].tile_type == 'ground':
+                continue
+            if not (room.y1+1 < y < room.y2-1 or room.x1+1 < x < room.x2-1):
+                continue
+            north, south, east, west = self._check_adjacent_tiles(x, y, 'wall')
+            door_h = not (north and south) and (east and west)
+            door_v = (north and south) and not (east and west)
+            if door_h or door_v:
+                valid_doors.append((x, y))
+
+        num_doors = len(valid_doors) if num_doors is None else num_doors
+        doors_to_create = min(num_doors, len(valid_doors))
+
+        rd.shuffle(valid_doors)
+        for n in range(doors_to_create):
+            door_x, door_y = valid_doors.pop()
+            self.tiles[door_x][door_y].set_type('door')
+
     def generate(self):
         """
         The location and size of a room are chosen randomly and it will only
@@ -44,5 +65,7 @@ class Tunnel(BaseGenerator, RectangularMixin):
                 self.rooms.append(new_room)
                 num_rooms += 1
 
+        for r in self.rooms:
+            self.place_doors(r)
         self.assign_wall_tiles()
         return self.tiles
