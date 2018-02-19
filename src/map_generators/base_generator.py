@@ -11,6 +11,7 @@ class Tile:
             self.char = char
             self.blocks = blocks
             self.opaque = blocks if opaque is None else opaque
+            self.tile_type = 'custom'
         else:
             self.set_type(tile_type)
 
