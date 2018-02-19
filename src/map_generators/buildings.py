@@ -2,9 +2,10 @@ import random as rd
 
 from .components import Rect
 from .base_generator import BaseGenerator
+from .helper import RectangularMixin
 
 
-class Buildings(BaseGenerator):
+class Buildings(BaseGenerator, RectangularMixin):
     def __init__(self, game_map, room_min_size, room_max_size):
         super().__init__(game_map)
         self.tiles = self._initialize(tile_type='ground')
@@ -31,32 +32,17 @@ class Buildings(BaseGenerator):
                     break
             else:
                 self.create_room_walls(new_room)
+                self.place_doors(new_room)
                 self.rooms.append(new_room)
 
         self.assign_wall_tiles()
         return self.tiles
 
-    def create_room_walls(self, room):
-        """Block tiles along the borders of the rectangle and create door."""
-        wall_tiles = []
-        for y in (room.y1, room.y2):
-            for x in range(room.x1, room.x2+1):
-                self.fill(x, y)
-                wall_tiles.append((x, y))
-
-        for x in (room.x1, room.x2):
-            for y in range(room.y1, room.y2+1):
-                self.fill(x, y)
-                wall_tiles.append((x, y))
-
+    def place_doors(self, room):
         # Prevent doorway in corners or too close to the edge
         valid_doors = []
-        for wt in wall_tiles:
-            if wt[0] in (room.x1, room.x2):
-                if room.y1+1 < wt[1] < room.y2-1:
-                    valid_doors.append(wt)
-            elif wt[1] in (room.y1, room.y2):
-                if room.x1+1 < wt[0] < room.x2-1:
-                    valid_doors.append(wt)
+        for x, y in room.border:
+            if room.y1+1 < y < room.y2-1 or room.x1+1 < x < room.x2-1:
+                valid_doors.append((x, y))
         door_x, door_y = rd.choice(valid_doors)
         self.tiles[door_x][door_y].set_type('door')
