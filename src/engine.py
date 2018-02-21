@@ -1,7 +1,7 @@
 import bearlibterminal.terminal as blt
 import logging
 
-from .game_map import GameMap
+from .input import InputHandler
 
 
 logger = logging.getLogger('roguelike')
@@ -14,8 +14,7 @@ class GameEngine:
         self.map_width = 60
         self.map_height = 50
 
-        self.initialize_blt()
-        self.generate_world()
+        self.input_handler = InputHandler()
 
     def initialize_blt(self):
         logger.debug("initializing bearlibterminal")
@@ -35,13 +34,14 @@ class GameEngine:
                                 height=self.map_height,
                                 generator='buildings')
 
-    def run(self):
-        while blt.read() != blt.TK_CLOSE:
-            self.update()
-
+    def play(self):
+        playing = True
+        while playing:
+            playing = self.input_handler.process()
+            self.main_game_loop()
         blt.close()
 
-    def update(self):
+    def main_game_loop(self):
         blt.clear()
         self.render_map()
         blt.refresh()
@@ -54,7 +54,7 @@ class GameEngine:
 
 def main():
     game = GameEngine()
-    game.run()
+    game.play()
 
 
 if __name__ == "__main__":
