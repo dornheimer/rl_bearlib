@@ -26,6 +26,9 @@ class GameMap(Sequence):
         generator, params = self.generators[generator]
         return generator(self, **params)
 
+    def is_blocked(self, x, y):
+        return self.tiles[x][y].blocks
+
     def __getitem__(self, key):
         return self.tiles[key]
 
