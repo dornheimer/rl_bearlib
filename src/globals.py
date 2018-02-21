@@ -7,8 +7,8 @@ Directions = namedtuple('Directions',
                          'north_west', 'south_east', 'south_west'])
 
 
-DIRECTIONS = Directions((0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (1, -1),
-                        (-1, 1), (-1, 1))
+DIRECTIONS = Directions((0, -1), (0, 1), (1, 0), (-1, 0), (1, -1), (-1, -1),
+                        (1, 1), (-1, 1))
 
 
 with open('config/tiles.json') as tile_data:
