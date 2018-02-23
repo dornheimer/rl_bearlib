@@ -11,5 +11,5 @@ DIRECTIONS = Directions((0, -1), (0, 1), (1, 0), (-1, 0), (1, -1), (-1, -1),
                         (1, 1), (-1, 1))
 
 
-with open('config/tiles.json') as tile_data:
+with open('config/tiles.json', encoding='utf-8') as tile_data:
     TILES = json.load(tile_data)
