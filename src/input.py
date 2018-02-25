@@ -36,15 +36,15 @@ class InputHandler:
     def __init__(self):
         self.mouse = Mouse()
 
-    def handle_input(self):
-        key = blt.read()
-        self.action = get_key(key)
+    def handle_input(self, key):
+        self.mouse.update_position()
+        if blt.peek() != key:
+            self.action = get_key(key)
 
     def process(self):
-        if blt.read() in (blt.TK_CLOSE, blt.TK_ESCAPE):
+        key = blt.read()
+        if key in (blt.TK_CLOSE, blt.TK_ESCAPE):
             return False
-        self.handle_input()
-        self.mouse.update_position()
-        print(self.mouse.x, self.mouse.y)
+        self.handle_input(key)
 
         return True
