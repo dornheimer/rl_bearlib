@@ -42,19 +42,19 @@ class EntityManager:
     def has_component(self, entity, component_type):
         return component_type in self.entities[entity]
 
+    def entities_with_components(self, *component_types):
+        entities = set(self.components[component_types[0]])
+        for ct in component_types[1:]:
+            entities.intersection_update(self.components[ct])
+        return entities
+
     def entities_at_location(self, x, y):
-        for e in self.entities:
-            loc = e['Location']
+        entities = self.entities_with_components('Location')
+        for e in entities:
+            loc = self.entities[e]['Location']
             if (loc.x, loc.y) == (x, y):
                 return True
         return False
-
-    def entities_with_component(self, component_type):
-        entities = []
-        for e, components in self.entities.items():
-            if component_type in components:
-                entities.append(e)
-        return entities
 
 
 class EntityComponentSystem:

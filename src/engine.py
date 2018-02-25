@@ -79,7 +79,8 @@ class GameEngine:
                 blt.print(x, y, '[color={}]{}'.format(tile.color, tile.char))
 
     def render_entities(self):
-        entities = self.ecs.manager.components['Appearance'] & self.ecs.manager.components['Location']
+        entities = self.ecs.manager.entities_with_components('Appearance',
+                                                             'Location')
         for e in entities:
             location = self.ecs.manager.entities[e]['Location']
             appearance = self.ecs.manager.entities[e]['Appearance']
