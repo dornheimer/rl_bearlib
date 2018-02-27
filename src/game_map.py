@@ -3,6 +3,7 @@ import logging
 
 from .map_generators.buildings import Buildings
 from .map_generators.tunnel import Tunnel
+from .map_generators.field import Field
 
 
 logger = logging.getLogger('roguelike')
@@ -12,7 +13,9 @@ class GameMap(Sequence):
     generators = {'tunnel':
                   (Tunnel, {'room_min_size': 4, 'room_max_size': 10}),
                   'buildings':
-                  (Buildings, {'room_min_size': 4, 'room_max_size': 10})}
+                  (Buildings, {'room_min_size': 4, 'room_max_size': 10}),
+                  'field':
+                  (Field, {})}
 
     def __init__(self, width, height, generator='tunnel'):
         self.width = width
