@@ -30,13 +30,13 @@ class Appearance(Component):
 
 
 class Name(Component):
-    def __init__(self, *, name):
+    def __init__(self, name):
         self.name = name
 
 
 class Description(Component):
-    def __init__(self, *, name):
-        self.name = name
+    def __init__(self, description):
+        self.description = description
 
 
 class Player(Component):
