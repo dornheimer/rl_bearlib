@@ -1,3 +1,6 @@
+from src.elements import Vector
+
+
 class Component:
     @property
     def _type(self):
@@ -7,10 +10,12 @@ class Component:
         return f"{self._type}(**{vars(self)})"
 
 
-class Location(Component):
-    def __init__(self, x, y):
-        self.x = int(x)
-        self.y = int(y)
+class Location(Vector, Component):
+    pass
+
+
+class Velocity(Vector, Component):
+    pass
 
 
 class Physical(Component):

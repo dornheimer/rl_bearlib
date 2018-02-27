@@ -2,7 +2,8 @@ import bearlibterminal.terminal as blt
 import logging
 
 from .game_map import GameMap
-from .ecs.components import Location, Appearance, Physical, Player, Input
+from .ecs.components import (Location, Appearance, Physical, Player, Input,
+                             Velocity)
 from .ecs.systems import MovementSystem, PlayerSystem
 from .ecs.ecs import EntityComponentSystem
 from .input import InputHandler
@@ -40,7 +41,7 @@ class GameEngine:
         logger.debug("initializing entity component system")
         self.ecs = EntityComponentSystem()
         self.ecs.add_system(MovementSystem, game_map=self.game_map)
-        self.ecs.add_system(PlayerSystem, input_handler=self.input_handler)
+        self.ecs.add_system(PlayerSystem)
 
     def initialize_entities(self):
         logger.debug("initializing entities")
@@ -51,6 +52,7 @@ class GameEngine:
             Physical(blocks=True),
             Appearance(char='@', color='t_magenta'),
             Location(self.map_width/2, self.map_height/2),
+            Velocity(0, 0),
             Input(self.input_handler))
 
     def generate_world(self):
