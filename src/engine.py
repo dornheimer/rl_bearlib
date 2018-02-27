@@ -2,7 +2,7 @@ import bearlibterminal.terminal as blt
 import logging
 
 from .game_map import GameMap
-from .ecs.components import Location, Appearance, Physical, Player
+from .ecs.components import Location, Appearance, Physical, Player, Input
 from .ecs.systems import MovementSystem, PlayerSystem
 from .ecs.ecs import EntityComponentSystem
 from .input import InputHandler
@@ -50,7 +50,8 @@ class GameEngine:
             Player(),
             Physical(blocks=True),
             Appearance(char='@', color='t_magenta'),
-            Location(self.map_width/2, self.map_height/2))
+            Location(self.map_width/2, self.map_height/2),
+            Input(self.input_handler))
 
     def generate_world(self):
         logger.debug("generating world")

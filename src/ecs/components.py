@@ -36,3 +36,12 @@ class Description(Component):
 
 class Player(Component):
     pass
+
+
+class Input(Component):
+    def __init__(self, input_handler):
+        self.input_handler = input_handler
+
+    @property
+    def action(self):
+        return self.input_handler.action
