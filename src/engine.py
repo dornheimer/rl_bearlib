@@ -4,7 +4,7 @@ import logging
 from .game_map import GameMap
 from .ecs.components import (Location, Appearance, Physical, Player, Input,
                              Velocity)
-from .ecs.systems import MovementSystem, PlayerSystem
+from .ecs.systems import MovementSystem, PlayerSystem, RenderSystem
 from .ecs.ecs import EntityComponentSystem
 from .input import InputHandler
 
@@ -42,6 +42,7 @@ class GameEngine:
         self.ecs = EntityComponentSystem()
         self.ecs.add_system(MovementSystem, game_map=self.game_map)
         self.ecs.add_system(PlayerSystem)
+        self.ecs.add_system(RenderSystem)
 
     def initialize_entities(self):
         logger.debug("initializing entities")
@@ -71,24 +72,14 @@ class GameEngine:
 
     def main_game_loop(self):
         blt.clear()
-        self.ecs.update()
         self.render_map()
-        self.render_entities()
+        self.ecs.update()
         blt.refresh()
 
     def render_map(self):
         for x, column in enumerate(self.game_map):
             for y, tile in enumerate(column):
                 blt.print(x, y, '[color={}]{}'.format(tile.color, tile.char))
-
-    def render_entities(self):
-        entities = self.ecs.manager.entities_with_components('Appearance',
-                                                             'Location')
-        for e in entities:
-            location = self.ecs.manager.entities[e]['Location']
-            appearance = self.ecs.manager.entities[e]['Appearance']
-            blt.print(location.x, location.y,
-                      '[color={}]{}'.format(appearance.color, appearance.char))
 
 
 def main():

@@ -1,3 +1,4 @@
+from bearlibterminal import terminal as blt
 from abc import ABCMeta, abstractmethod
 
 
@@ -70,3 +71,14 @@ class PlayerSystem(System):
         player_action = input_component.action
         if player_action.get('move'):
             pass  # Handled by movement system
+
+
+class RenderSystem(System):
+    requires = ['Appearance', 'Location']
+
+    def run(self):
+        for s_e in self.subscribed_entities:
+            location = self.ecs.manager.entities[s_e]['Location']
+            appearance = self.ecs.manager.entities[s_e]['Appearance']
+            blt.print(location.x, location.y,
+                      '[color={}]{}'.format(appearance.color, appearance.char))
