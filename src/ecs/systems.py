@@ -37,11 +37,13 @@ class MovementSystem(System):
         dest = loc + vel
 
         if self.game_map.is_blocked(dest.x, dest.y):
+            self.ecs.message_log.add_message("The path is blocked.")
             return False
         if self.ecs.manager.entities_at_location(dest.x, dest.y):
             return False
 
         loc += vel
+        self.ecs.message_log.add_message("You move.", color='t_cyan')
         return True
 
     def run(self):

@@ -7,6 +7,7 @@ from .ecs.components import (Location, Appearance, Physical, Player, Input,
 from .ecs.systems import MovementSystem, PlayerSystem, RenderSystem
 from .ecs.ecs import EntityComponentSystem
 from .input import InputHandler
+from .message_log import MessageLog
 
 
 logger = logging.getLogger('roguelike')
@@ -17,10 +18,17 @@ class GameEngine:
         self.window_width = 80
         self.window_height = 50
         self.map_width = 60
-        self.map_height = 50
+        self.map_height = self.window_height
+        self.panel_width = self.window_width - self.map_width
+        self.panel_height = self.window_height
+
+        self.input_handler = InputHandler()
+        self.message_log = MessageLog(x=self.map_width+1,
+                                      y=self.panel_height-20,
+                                      width=self.panel_width-1,
+                                      height=20)
 
         self.initialize_blt()
-        self.input_handler = InputHandler()
         self.generate_world()
         self.initialize_ecs()
         self.initialize_entities()
@@ -39,7 +47,7 @@ class GameEngine:
 
     def initialize_ecs(self):
         logger.debug("initializing entity component system")
-        self.ecs = EntityComponentSystem()
+        self.ecs = EntityComponentSystem(message_log=self.message_log)
         self.ecs.add_system(MovementSystem, game_map=self.game_map)
         self.ecs.add_system(PlayerSystem)
         self.ecs.add_system(RenderSystem)
@@ -74,12 +82,28 @@ class GameEngine:
         blt.clear()
         self.render_map()
         self.ecs.update()
+        self.render_panel()
         blt.refresh()
 
     def render_map(self):
         for x, column in enumerate(self.game_map):
             for y, tile in enumerate(column):
                 blt.print(x, y, '[color={}]{}'.format(tile.color, tile.char))
+
+    def render_panel(self):
+        self.display_message_log()
+
+    def display_message_log(self):
+        lines = 0
+        for message in self.message_log:
+            current_line = self.message_log.y + lines
+            blt.puts(x=self.message_log.x,
+                     y=current_line,
+                     s=f"[color={message.color}]{message.text}",
+                     width=self.message_log.width,
+                     height=self.message_log.height,
+                     align=blt.TK_ALIGN_LEFT)
+            lines += message.lines
 
 
 def main():

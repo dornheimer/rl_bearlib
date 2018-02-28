@@ -61,7 +61,8 @@ class EntityComponentSystem:
     """
     active_systems: {system_type: system_instance}
     """
-    def __init__(self):
+    def __init__(self, *, message_log):
+        self.message_log = message_log
         self.manager = EntityManager()
         self.active_systems = {}
 
