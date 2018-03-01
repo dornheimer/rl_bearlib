@@ -4,10 +4,11 @@ from src.globals import TILES
 
 
 class Tile:
-    def __init__(self, tile_type=None, *, color='t_brown', char='#',
-                 blocks=True, opaque=None):
+    def __init__(self, tile_type=None, *, color_lit='t_brown',
+                 color_dark='t_black', char='#', blocks=True, opaque=None):
         if tile_type is None:
-            self.color = color
+            self.color_lit = color_lit
+            self.color_dark = color_dark
             self.char = char
             self.blocks = blocks
             self.opaque = blocks if opaque is None else opaque

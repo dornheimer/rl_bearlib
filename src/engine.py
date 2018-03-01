@@ -88,7 +88,8 @@ class GameEngine:
     def render_map(self):
         for x, column in enumerate(self.game_map):
             for y, tile in enumerate(column):
-                blt.print(x, y, '[color={}]{}'.format(tile.color, tile.char))
+                blt.print(x, y, '[color={}]{}'.format(
+                    tile.color_lit, tile.char))
 
     def render_panel(self):
         self.display_message_log()

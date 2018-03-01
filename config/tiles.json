@@ -3,19 +3,22 @@
         "char": " ",
         "blocks": false,
         "opaque": false,
-        "color": null
+        "color_lit": null,
+        "color_dark": null
     },
     "ground": {
         "char": ".",
         "blocks": false,
         "opaque": false,
-        "color": "t_cyan"
+        "color_lit": "t_lcyan",
+        "color_dark": "t_cyan"
     },
     "wall": {
         "char": "╬",
         "blocks": true,
         "opaque": true,
-        "color": "t_dgray"
+        "color_lit": "t_lgrey",
+        "color_dark": "t_dgrey"
     },
     "wall_nwe": {
         "char": "╩"
@@ -66,12 +69,14 @@
         "char": "┼",
         "blocks": false,
         "opaque": true,
-        "color": "t_lblue"
+        "color_lit": "t_lblue",
+        "color_dark": "t_blue"
     },
     "water": {
         "char": "~",
         "blocks": false,
         "opaque": false,
-        "color": "t_blue"
+        "color_lit": "t_blue",
+        "color_dark": "t_brown"
     }
 }
