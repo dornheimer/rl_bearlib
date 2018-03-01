@@ -8,6 +8,10 @@ class Rect:
         self.x2 = x + w
         self.y2 = y + h
 
+    def __repr__(self):
+        class_name = type(self).__name__
+        return f"{class_name}({self.x1}, {self.y1}, {self.x2}, {self.y2})"
+
     @property
     def center(self):
         """Calculate center coordinates of a rectangle."""
@@ -35,6 +39,11 @@ class Rect:
         return (self.x1 <= other.x2 and self.x2 >= other.x1 and
                 self.y1 <= other.y2 and self.y2 >= other.y1)
 
-    def __repr__(self):
-        class_name = type(self).__name__
-        return f"{class_name}({self.x1}, {self.y1}, {self.x2}, {self.y2})"
+    @classmethod
+    def from_center(cls, center_x, center_y, w, h):
+        x = int(center_x - w)
+        y = int(center_y - h)
+        new_w = int(w * 2)
+        new_h = int(h * 2)
+        print("visible_area computed")
+        return cls(x, y, new_w, new_h)
