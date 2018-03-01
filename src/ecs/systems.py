@@ -1,4 +1,3 @@
-from bearlibterminal import terminal as blt
 from abc import ABCMeta, abstractmethod
 
 

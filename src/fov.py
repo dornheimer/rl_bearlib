@@ -1,7 +1,6 @@
 from bresenham import bresenham
 
-from .elements import Vector
-from .map_generators.components import Rect
+from .elements import Rect, Vector
 
 
 class FieldOfView:

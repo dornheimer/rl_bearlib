@@ -2,7 +2,7 @@ import random as rd
 
 from .base_generator import BaseGenerator
 from .helper import RectangularMixin
-from .components import Rect
+from src.elements import Rect
 
 
 class Tunnel(BaseGenerator, RectangularMixin):

@@ -1,6 +1,6 @@
 import random as rd
 
-from .components import Rect
+from src.elements import Rect
 from .base_generator import BaseGenerator
 from .helper import RectangularMixin
 
