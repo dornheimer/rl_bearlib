@@ -5,7 +5,7 @@ from .fov import FieldOfView
 from .game_map import GameMap
 from .ecs.components import (Location, Appearance, Physical, Player, Input,
                              Velocity)
-from .ecs.systems import MovementSystem, PlayerSystem, RenderSystem
+from .ecs.systems import MovementSystem, PlayerSystem
 from .ecs.ecs import EntityComponentSystem
 from .input import InputHandler
 from .message_log import MessageLog
@@ -51,7 +51,6 @@ class GameEngine:
         self.ecs = EntityComponentSystem(message_log=self.message_log)
         self.ecs.add_system(MovementSystem, game_map=self.game_map)
         self.ecs.add_system(PlayerSystem)
-        self.ecs.add_system(RenderSystem)
 
     def initialize_entities(self):
         logger.debug("initializing entities")
@@ -84,6 +83,7 @@ class GameEngine:
     def main_game_loop(self):
         blt.clear()
         self.render_map()
+        self.render_entities()
         self.ecs.update()
         self.render_panel()
         blt.refresh()
@@ -100,6 +100,16 @@ class GameEngine:
                 elif self.game_map[x][y].explored:
                     blt.print(x, y, '[color={}]{}'.format(
                         tile.color_dark, tile.char))
+
+    def render_entities(self):
+        renderables = self.ecs.manager.entities_with_components('Location',
+                                                                'Appearance')
+
+        for r in renderables:
+            location = self.ecs.manager.entities[r]['Location']
+            appearance = self.ecs.manager.entities[r]['Appearance']
+            blt.print(location.x, location.y,
+                      '[color={}]{}'.format(appearance.color, appearance.char))
 
     def render_panel(self):
         self.display_message_log()
