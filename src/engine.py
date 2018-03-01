@@ -1,6 +1,7 @@
 import bearlibterminal.terminal as blt
 import logging
 
+from .fov import FieldOfView
 from .game_map import GameMap
 from .ecs.components import (Location, Appearance, Physical, Player, Input,
                              Velocity)
@@ -69,12 +70,14 @@ class GameEngine:
         self.game_map = GameMap(width=self.map_width,
                                 height=self.map_height,
                                 generator='tunnel')
+        self.fov = FieldOfView(self.game_map)
 
     def play(self):
         playing = True
         while playing:
-            playing = self.input_handler.process()
-            self.main_game_loop()
+            if blt.has_input():
+                playing = self.input_handler.process()
+                self.main_game_loop()
 
         blt.close()
 
@@ -86,10 +89,17 @@ class GameEngine:
         blt.refresh()
 
     def render_map(self):
+        player_loc = self.ecs.manager.entities[self.player]['Location']
+        self.fov.compute(player_loc.x, player_loc.y, light_walls=True)
         for x, column in enumerate(self.game_map):
             for y, tile in enumerate(column):
-                blt.print(x, y, '[color={}]{}'.format(
-                    tile.color_lit, tile.char))
+                if self.fov.is_visible(x, y):
+                    blt.print(x, y, '[color={}]{}'.format(
+                        tile.color_lit, tile.char))
+                    self.game_map[x][y].explored = True
+                elif self.game_map[x][y].explored:
+                    blt.print(x, y, '[color={}]{}'.format(
+                        tile.color_dark, tile.char))
 
     def render_panel(self):
         self.display_message_log()

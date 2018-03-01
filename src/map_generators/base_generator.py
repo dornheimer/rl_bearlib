@@ -15,6 +15,7 @@ class Tile:
             self.tile_type = 'custom'
         else:
             self.set_type(tile_type)
+        self.explored = False
 
     def update(self, **kwargs):
         for key, value in kwargs.items():
