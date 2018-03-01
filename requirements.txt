@@ -1,0 +1,3 @@
+bearlibterminal==0.15.7
+bresenham.egg==info
+bresenham==0.2
