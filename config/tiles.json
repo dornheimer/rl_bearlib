@@ -11,14 +11,14 @@
         "blocks": false,
         "opaque": false,
         "color_lit": "t_lcyan",
-        "color_dark": "t_cyan"
+        "color_dark": "t_blue"
     },
     "wall": {
         "char": "╬",
         "blocks": true,
         "opaque": true,
-        "color_lit": "t_lgrey",
-        "color_dark": "t_dgrey"
+        "color_lit": "t_magenta",
+        "color_dark": "t_blue"
     },
     "wall_nwe": {
         "char": "╩"

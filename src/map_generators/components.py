@@ -45,5 +45,4 @@ class Rect:
         y = int(center_y - h)
         new_w = int(w * 2)
         new_h = int(h * 2)
-        print("visible_area computed")
         return cls(x, y, new_w, new_h)
