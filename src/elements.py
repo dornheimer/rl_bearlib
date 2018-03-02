@@ -100,3 +100,41 @@ class Rect:
         new_w = int(w * 2)
         new_h = int(h * 2)
         return cls(x, y, new_w, new_h)
+
+
+class Circle:
+    """
+    Complete bresenham circle.
+
+    https://www.geeksforgeeks.org/bresenhams-circle-drawing-algorithm/
+    """
+    def __init__(self, x, y, *, radius):
+        self.x0 = x
+        self.y0 = y
+        self.radius = radius
+        self.x = 0
+        self.y = radius
+
+    @property
+    def border(self):
+        x0, y0 = self.x0, self.y0
+        x, y = self.x, self.y
+        decision = 3 - (2 * self.radius)
+
+        border = set()
+        while y >= x:
+            border.add((x + x0, -y + y0))
+            border.add((y + x0, -x + y0))
+            border.add((y + x0, x + y0))
+            border.add((x + x0, y + y0))
+            border.add((-x + x0, y + y0))
+            border.add((-y + x0, x + y0))
+            border.add((-y + x0, -x + y0))
+            border.add((-x + x0, -y + y0))
+            if decision > 0:
+                decision += (4 * (x - y)) + 10
+                y -= 1
+            else:
+                decision += (4 * x) + 6
+            x += 1
+        return border
