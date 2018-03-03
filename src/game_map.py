@@ -10,6 +10,8 @@ logger = logging.getLogger('roguelike')
 
 
 class GameMap(Sequence):
+    """Generate the game map using one of the available generators."""
+
     generators = {'tunnel':
                   (Tunnel, {'room_min_size': 4, 'room_max_size': 10}),
                   'buildings':
@@ -26,6 +28,7 @@ class GameMap(Sequence):
         logger.debug(f"sucessfully built map (generator: {generator})")
 
     def initialize_generator(self, generator):
+        """Use generator to initialize tiles."""
         generator, params = self.generators[generator]
         return generator(self, **params)
 

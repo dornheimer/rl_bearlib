@@ -4,6 +4,10 @@ from src.globals import TILES
 
 
 class Tile:
+    """A tile on the game map, represented by a character and color.
+
+    Can block movement and/or sight.
+    """
     def __init__(self, tile_type=None, *, color_lit='t_brown',
                  color_dark='t_black', char='#', blocks=True, opaque=None):
         if tile_type is None:
@@ -42,13 +46,14 @@ class Tile:
 
 
 class BaseGenerator(metaclass=ABCMeta):
-    """Base class for dungeon generation algorithms."""
+    """ABC for dungeon generation algorithms."""
+
     def __init__(self, game_map):
         self.game_map = game_map
         self.tiles = self._initialize()
 
     def _initialize(self, *, tile_type='wall'):
-        """Fill game map space with clear tiles."""
+        """Fill game map space with tiles of a specific type."""
         return [[Tile(tile_type)
                 for y in range(self.game_map.height)]
                 for x in range(self.game_map.width)]
@@ -60,6 +65,7 @@ class BaseGenerator(metaclass=ABCMeta):
         self.tiles[x][y].set_type('wall')
 
     def assign_wall_tiles(self):
+        """Select the appropriate wall tile character from the tile set."""
         for y in range(self.game_map.height-1):
             for x in range(self.game_map.width-1):
                 tile = self.tiles[x][y]
@@ -78,6 +84,7 @@ class BaseGenerator(metaclass=ABCMeta):
         return north, south, east, west
 
     def select_wall_tile(self, x, y):
+        """Determine wall tile type from its relative position."""
         north, south, east, west = self._check_adjacent_tiles(x, y, door=True)
         if all((north, south, east, west)):
             return 'wall'
