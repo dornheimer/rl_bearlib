@@ -18,7 +18,7 @@ class FieldOfView:
     def cast_rays(self, origin_x, origin_y):
         visible_area = Circle(origin_x, origin_y, radius=self.radius)
         for dest_x, dest_y in visible_area.border:
-            yield bresenham(origin_x, origin_y, dest_x, dest_y)
+                yield bresenham(origin_x, origin_y, dest_x, dest_y)
 
     def reset(self):
         for x, y in self.last_area:
@@ -30,6 +30,8 @@ class FieldOfView:
         self.reset()
         for ray in self.cast_rays(origin_x, origin_y):
             for x, y in ray:
+                if self.is_out_of_bounds(x, y):
+                    continue
                 if self.game_map[x][y].is_type('wall', door=True):
                     if light_walls:
                         self.fov_map[x][y] = True
@@ -41,3 +43,10 @@ class FieldOfView:
 
     def is_visible(self, x, y):
         return self.fov_map[x][y]
+
+    def is_out_of_bounds(self, x, y):
+        if x >= self.game_map.width or y >= self.game_map.height:
+            return True
+        if x < 0 or y < 0:
+            return True
+        return False
